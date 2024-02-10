@@ -1,9 +1,10 @@
-import 'package:commits_history/ui/dashboard_screen.dart';
+import 'package:commits_history/theme/commits_history_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'manager/app_state_manager.dart';
+import 'navigation/app_router.dart';
 
 void main() {
   runApp(const CommitsHistory());
@@ -30,14 +31,24 @@ class _CommitsHistoryState extends State<CommitsHistory> {
               ChangeNotifierProvider(
                 create: (context) => _appStateManager,
               ),
-              // TODO: Add the AppRouter provider
+              Provider<AppRouter>(
+                create: (context) => AppRouter(_appStateManager),
+              ),
             ],
             child: Builder(
               builder: (BuildContext context) {
-                return const PlatformApp(
+                final router = context.read<AppRouter>().router;
+
+                return PlatformApp.router(
+                  routeInformationProvider: router.routeInformationProvider,
+                  routeInformationParser: router.routeInformationParser,
+                  routerDelegate: router.routerDelegate,
                   debugShowCheckedModeBanner: false,
                   title: 'Commits History',
-                  home: DashboardScreen(),
+                  material: (_, __) =>
+                      MaterialAppRouterData(theme: CommitsHistoryMaterialTheme.light()),
+                  cupertino: (_, __) =>
+                      CupertinoAppRouterData(theme: CommitsHistoryCupertinoTheme.light()),
                 );
               },
             )
