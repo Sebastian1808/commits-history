@@ -1,4 +1,5 @@
 import 'package:commits_history/ui/auth/how_to_get_auth_token_screen.dart';
+import 'package:commits_history/ui/auth/selected_project_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,6 +34,11 @@ class AppRouter {
           builder: (context, state) => const HowToGetAuthTokenScreen(),
       ),
       GoRoute(
+        name: 'selectProject',
+        path: '/select-project',
+        builder: (context, state) => const SelectProjectScreen(),
+      ),
+      GoRoute(
         name: 'dashboard',
         path: '/dashboard',
         pageBuilder: (context, state) => NoTransitionPage<void>(
@@ -50,9 +56,12 @@ class AppRouter {
 
       final inHowToGetAuthToken = state.fullPath == '/how-to-get-auth-token';
 
+      const selectProjectLoc = '/select-project';
+
       const dashboardLoc = '/dashboard';
 
       final loggedIn = appStateManager.isLoggedIn;
+      final isProjectSelected = appStateManager.isProjectSelected;
 
       final noLoggedInRoutes = [
         inSplash,
@@ -74,7 +83,11 @@ class AppRouter {
           }
         } else {
           if (noLoggedInRoutes.any((element) => element)){
-            return dashboardLoc;
+            if (!isProjectSelected) {
+              return selectProjectLoc;
+            } else {
+              return dashboardLoc;
+            }
           }
         }
       }

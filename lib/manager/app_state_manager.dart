@@ -10,10 +10,12 @@ class AppStateManager extends ChangeNotifier {
   SharedPreferences? prefs;
   bool _initialized = false;
   bool _loggedIn = false;
+  bool _isProjectSelected = false;
   String? token;
 
   bool get isInitialized => _initialized;
   bool get isLoggedIn => _loggedIn;
+  bool get isProjectSelected => _isProjectSelected;
   String? get getToken => token;
 
 
@@ -40,6 +42,11 @@ class AppStateManager extends ChangeNotifier {
   login() async {
     _loggedIn = true;
 
+    notifyListeners();
+  }
+
+  void selectProject() {
+    _isProjectSelected = true;
     notifyListeners();
   }
 

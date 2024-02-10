@@ -51,6 +51,17 @@ class AuthServices {
     return response;
   }
 
+  Future<Response> getUserProjects() async {
+    await init();
+
+    final response = await get(
+      Uri.parse("$_baseUrl/user/repos"),
+      headers: headers,
+    );
+
+    return response;
+  }
+
   Future<Response> getHistoryCommits({required repoName, required repoOwner}) async {
     await init();
 
