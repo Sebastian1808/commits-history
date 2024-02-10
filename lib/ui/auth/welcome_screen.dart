@@ -1,7 +1,13 @@
+import 'package:commits_history/api/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
+import '../../api/auth/auth_services.dart';
+import '../../manager/app_state_manager.dart';
 import '../../theme/style.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_button.dart';
@@ -73,7 +79,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 15.0),
-                          CustomButton(onPressed: (){}, textButton: 'View Commits For This Repo',)
+                          CustomButton(
+                            onPressed: () => viewThisRepoCommits(context),
+                            textButton: 'View Commits For This Repo',
+                          )
                         ],
                       ),
 
@@ -124,7 +133,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                "You don't know how to get a \npersonal access token?",
+                                "You don't know how to get a \npersonal access token? 👉",
                                 style: GoogleFonts.nunito(
                                   textStyle: Styles.bodyText1,
                                   fontStyle: FontStyle.italic,
@@ -140,7 +149,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                       decoration: TextDecoration.underline,
                                     )
                                 ),
-                                onPressed: ()=> {print('HOLI')}
+                                onPressed: () {
+                                 // TODO: Make section to show how to get a personal access token
+                                }
                             )
                           ],
                         ),
@@ -174,10 +185,113 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
+  void viewThisRepoCommits(context) async {
+    Response response = await AuthServices().login(
+      token: dotenv.env['PERSONAL_ACCESS_TOKEN'] ?? '',
+      viewThisRepo: true,
+    );
+
+    if (response.isSuccessful) {
+      Provider.of<AppStateManager>(context, listen: false).login();
+
+    } else {
+      showPlatformDialog(
+          context: context,
+          builder: (_) => PlatformAlertDialog(
+            title: Text(
+              'Oops, something unexpected happened, please try again later.',
+              style: GoogleFonts.nunitoSans(
+                textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              PlatformTextButton(
+                child: Text('Ok', style: GoogleFonts.nunitoSans(
+                  textStyle: const TextStyle(
+                    color: Colors.indigo,
+                    fontSize: 15,
+                  ),
+                )),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          )
+      );
+    }
+  }
+
   void _submitForm(context) async {
     if (_formValidator.currentState!.validate()) {
-      // TODO: Implement the logic to Auth with the token
+      Response response = await AuthServices().login(
+        token: _controllerToken.text,
+        viewThisRepo: false,
+      );
 
+      if (response.isSuccessful) {
+        Provider.of<AppStateManager>(context, listen: false).login();
+      } else {
+        showPlatformDialog(
+            context: context,
+            builder: (_) => PlatformAlertDialog(
+              title: Text(
+                'Oops! ❌ \n The token seems to be invalid. \n\nPlease try again.',
+                style: GoogleFonts.nunitoSans(
+                  textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              content: SizedBox(
+                height: 120,
+                width: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                      size: 50,
+                    ),
+                    Text(
+                      'If you don\'t know how to get a personal access token, click on the link in the form.',
+                      style: GoogleFonts.nunitoSans(
+                        textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                PlatformTextButton(
+                  child: Text('Ok', style: GoogleFonts.nunitoSans(
+                    textStyle: const TextStyle(
+                      color: Colors.indigo,
+                      fontSize: 15,
+                    ),
+                  )),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            )
+        );
+      }
     }
   }
 }
