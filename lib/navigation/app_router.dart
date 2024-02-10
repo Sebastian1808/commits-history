@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
 import '../manager/app_state_manager.dart';
+import '../ui/auth/login_screen.dart';
 import '../ui/dashboard_screen.dart';
+import '../ui/splash_screen.dart';
 
 class AppRouter {
   final AppStateManager appStateManager;
@@ -13,7 +16,16 @@ class AppRouter {
     initialLocation: '/',
     refreshListenable: appStateManager,
     routes: [
-      // TODO: Add the login flow routes
+      GoRoute(
+          name: 'splash',
+          path: '/',
+          builder: (context, state) => const SplashScreen()
+      ),
+      GoRoute(
+        name: 'login',
+        path: '/login',
+        builder: (context, state) => const LoginScreen(),
+      ),
       GoRoute(
         name: 'dashboard',
         path: '/dashboard',
@@ -23,6 +35,43 @@ class AppRouter {
         ),
       ),
     ],
-    // TODO: Add the redirect logic
+    redirect: (BuildContext context, GoRouterState state) {
+
+      final inSplash = state.fullPath == '/';
+
+      final inLogging = state.fullPath == '/login';
+      const loginLoc = '/login';
+
+
+      const dashboardLoc = '/dashboard';
+
+      final loggedIn = appStateManager.isLoggedIn;
+
+      final noLoggedInRoutes = [
+        inSplash,
+        inLogging
+      ];
+
+      // redirect to the welcome page if the user is not logged in or to the
+      //  dashboard if the user is logged in
+      if (appStateManager.isInitialized) {
+        if (inSplash) {
+          return loginLoc;
+        }
+
+        if (!loggedIn) {
+
+          if (noLoggedInRoutes.every((element) => !element) ) {
+            return loginLoc;
+          }
+        } else {
+          if (noLoggedInRoutes.any((element) => element)){
+            return dashboardLoc;
+          }
+        }
+      }
+
+      return null;
+    },
   );
 }
