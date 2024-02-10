@@ -1,3 +1,4 @@
+import 'package:commits_history/ui/auth/how_to_get_auth_token_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,10 +13,10 @@ class AppRouter {
   AppRouter(this.appStateManager);
 
   late final router = GoRouter(
-    debugLogDiagnostics: false,
+    debugLogDiagnostics: true,
     initialLocation: '/',
     refreshListenable: appStateManager,
-    routes: [
+    routes: <RouteBase>[
       GoRoute(
           name: 'splash',
           path: '/',
@@ -25,6 +26,11 @@ class AppRouter {
         name: 'welcome',
         path: '/welcome',
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+          name: 'howToGetAuthToken',
+          path: '/how-to-get-auth-token',
+          builder: (context, state) => const HowToGetAuthTokenScreen(),
       ),
       GoRoute(
         name: 'dashboard',
@@ -42,6 +48,7 @@ class AppRouter {
       final inWelcome = state.fullPath == '/welcome';
       const welcomeLoc = '/welcome';
 
+      final inHowToGetAuthToken = state.fullPath == '/how-to-get-auth-token';
 
       const dashboardLoc = '/dashboard';
 
@@ -49,7 +56,8 @@ class AppRouter {
 
       final noLoggedInRoutes = [
         inSplash,
-        inWelcome
+        inWelcome,
+        inHowToGetAuthToken
       ];
 
       // redirect to the welcome page if the user is not logged in or to the

@@ -50,32 +50,30 @@ class Styles {
     fontWeight: FontWeight.bold,
   );
 
+  static const TextStyle bodyTextBoldJumbo = TextStyle(
+    fontSize: 17,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextTheme lightTextTheme = TextTheme(
-    headline1: GoogleFonts.nunito(
+    displayLarge: GoogleFonts.nunito(
         textStyle: headline1,
         color: Colors.black
     ),
-    headline2: GoogleFonts.nunito(
+    displayMedium: GoogleFonts.nunito(
         textStyle: headline2,
         color: Colors.black
     ),
-    headline3: GoogleFonts.nunito(
+    displaySmall: GoogleFonts.nunito(
         textStyle: headline3,
         color: Colors.black
     ),
-    headline4: GoogleFonts.nunito(
-        textStyle: headline4,
-        color: Colors.black
-    ),
-    headline5: GoogleFonts.nunito(
-        textStyle: headline5,
-        color: Colors.black
-    ),
-    bodyText1: GoogleFonts.nunito(
+    bodyLarge: GoogleFonts.nunito(
         textStyle: bodyText1,
         color: Colors.black
     ),
-    bodyText2: GoogleFonts.nunito(
+    bodyMedium: GoogleFonts.nunito(
         textStyle: bodyText2,
         color: Colors.black
     ),

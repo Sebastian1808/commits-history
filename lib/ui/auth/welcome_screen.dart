@@ -2,13 +2,16 @@ import 'package:commits_history/api/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/auth/auth_services.dart';
+import '../../helpers/launch_web_view.dart';
 import '../../manager/app_state_manager.dart';
 import '../../theme/style.dart';
+import 'components/custom_card_wrapper.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_button.dart';
 
@@ -61,45 +64,44 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  cardWrapper(
-                    Text(
+                  CustomCardWrapper(
+                      child: Text(
                       '📖 In this app you can see the commit history of your GitHub repositories.\n 🚀 With help of GitHub APIs! 🚀 ',
                       style: GoogleFonts.nunito(
                         textStyle: Styles.headline3,
                       ),
                       textAlign: TextAlign.center,
-                    )
+                    ),
                   ),
                   Image.asset('assets/logos/login_decoration.png'),
-                  cardWrapper(
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            "You can view any of your GitHub repositories or you can also see an example of the commit history of this application's repository. 📚",
-                            style: GoogleFonts.nunito(
-                              textStyle: Styles.headline3,
-                            ),
-                            textAlign: TextAlign.center,
+                  CustomCardWrapper(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "You can view any of your GitHub repositories or you can also see an example of the commit history of this application's repository. 📚",
+                          style: GoogleFonts.nunito(
+                            textStyle: Styles.headline3,
                           ),
-                          const SizedBox(height: 15.0),
-                          isLoadingThisCommits
-                              ? const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
-                                  ),
-                                )
-                              : CustomButton(
-                                onPressed: () => viewThisRepoCommits(context),
-                                textButton: 'View Commits For This Repo',
-                              )
-                        ],
-                      ),
-
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 15.0),
+                        isLoadingThisCommits
+                            ? const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
+                          ),
+                        )
+                            : CustomButton(
+                          onPressed: () => viewThisRepoCommits(context),
+                          textButton: 'View Commits For This Repo',
+                        )
+                      ],
+                    ),
                   ),
-                  cardWrapper(
-                    Column(
+                  CustomCardWrapper(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Padding(
@@ -139,21 +141,43 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                                "You don't know how to get a \npersonal access token? 👉",
+                                "Get a personal access token",
                                 style: GoogleFonts.nunito(
                                   textStyle: Styles.bodyText1,
                                   fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w500,
                                 )
                             ),
                             PlatformTextButton(
                                 child: Text(
-                                    'Click here',
+                                    "let's get to it",
+                                    style: GoogleFonts.nunito(
+                                      textStyle: Styles.bodyTextBold,
+                                      color: Colors.blueGrey,
+                                      decoration: TextDecoration.underline,
+                                    )
+                                ),
+                              onPressed: () => launchInWebView(Uri.parse('https://github.com/settings/tokens')),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                "You don't know how to get a \npersonal access token?",
+                                style: GoogleFonts.nunito(
+                                  textStyle: Styles.bodyText1,
+                                  fontStyle: FontStyle.italic,
+                                  // fontWeight: FontWeight.w500,
+                                )
+                            ),
+                            PlatformTextButton(
+                                child: Text(
+                                    'Info here',
                                     style: GoogleFonts.nunito(
                                       textStyle: Styles.bodyTextBold,
                                       color: Colors.blueGrey,
@@ -161,7 +185,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     )
                                 ),
                                 onPressed: () {
-                                 // TODO: Make section to show how to get a personal access token
+                                  context.pushNamed('howToGetAuthToken');
                                 }
                             )
                           ],
@@ -169,36 +193,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         const SizedBox(height: 20.0),
                         isLoadingOtherCommits
                             ? const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
-                                ),
-                              )
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
+                          ),
+                        )
                             : CustomButton(
-                                onPressed: () => _submitForm(context),
-                                textButton: 'View My Repos Commits'
+                            onPressed: () => _submitForm(context),
+                            textButton: 'View My Repos Commits'
                         ),
                       ],
-                    )
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget cardWrapper(Widget child) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(width: 1, color: Colors.white)),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: child,
       ),
     );
   }
@@ -214,8 +225,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     setState(() => isLoadingThisCommits = false);
 
     if (response.isSuccessful) {
-      // Provider.of<AppStateManager>(context, listen: false).login();
-
+      Provider.of<AppStateManager>(context, listen: false).login();
     } else {
       showPlatformDialog(
           context: context,
