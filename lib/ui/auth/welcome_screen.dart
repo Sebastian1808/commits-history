@@ -23,6 +23,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final GlobalKey<FormState> _formValidator = GlobalKey<FormState>();
   final TextEditingController _controllerToken = TextEditingController();
 
+  // State of loading for the buttons
+  bool isLoadingThisCommits = false;
+  bool isLoadingOtherCommits = false;
+
   @override
   void dispose() {
     _controllerToken.dispose();
@@ -79,10 +83,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 15.0),
-                          CustomButton(
-                            onPressed: () => viewThisRepoCommits(context),
-                            textButton: 'View Commits For This Repo',
-                          )
+                          isLoadingThisCommits
+                              ? const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
+                                  ),
+                                )
+                              : CustomButton(
+                                onPressed: () => viewThisRepoCommits(context),
+                                textButton: 'View Commits For This Repo',
+                              )
                         ],
                       ),
 
@@ -156,9 +167,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           ],
                         ),
                         const SizedBox(height: 20.0),
-                        CustomButton(
-                            onPressed: () => _submitForm(context),
-                            textButton: 'View My Repos Commits'
+                        isLoadingOtherCommits
+                            ? const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey)
+                                ),
+                              )
+                            : CustomButton(
+                                onPressed: () => _submitForm(context),
+                                textButton: 'View My Repos Commits'
                         ),
                       ],
                     )
@@ -186,13 +204,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   }
 
   void viewThisRepoCommits(context) async {
+    setState(() => isLoadingThisCommits = true);
+
     Response response = await AuthServices().login(
       token: dotenv.env['PERSONAL_ACCESS_TOKEN'] ?? '',
       viewThisRepo: true,
     );
 
+    setState(() => isLoadingThisCommits = false);
+
     if (response.isSuccessful) {
-      Provider.of<AppStateManager>(context, listen: false).login();
+      // Provider.of<AppStateManager>(context, listen: false).login();
 
     } else {
       showPlatformDialog(
@@ -213,7 +235,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               PlatformTextButton(
                 child: Text('Ok', style: GoogleFonts.nunitoSans(
                   textStyle: const TextStyle(
-                    color: Colors.indigo,
+                    color: Colors.blueGrey,
                     fontSize: 15,
                   ),
                 )),
@@ -229,10 +251,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void _submitForm(context) async {
     if (_formValidator.currentState!.validate()) {
+      setState(() => isLoadingOtherCommits = true);
+
       Response response = await AuthServices().login(
         token: _controllerToken.text,
         viewThisRepo: false,
       );
+
+      setState(() => isLoadingOtherCommits = false);
 
       if (response.isSuccessful) {
         Provider.of<AppStateManager>(context, listen: false).login();
@@ -280,7 +306,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 PlatformTextButton(
                   child: Text('Ok', style: GoogleFonts.nunitoSans(
                     textStyle: const TextStyle(
-                      color: Colors.indigo,
+                      color: Colors.blueGrey,
                       fontSize: 15,
                     ),
                   )),
