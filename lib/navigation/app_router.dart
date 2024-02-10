@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
 import '../manager/app_state_manager.dart';
-import '../ui/auth/login_screen.dart';
+import '../ui/auth/welcome_screen.dart';
 import '../ui/dashboard_screen.dart';
 import '../ui/splash_screen.dart';
 
@@ -22,9 +22,9 @@ class AppRouter {
           builder: (context, state) => const SplashScreen()
       ),
       GoRoute(
-        name: 'login',
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
+        name: 'welcome',
+        path: '/welcome',
+        builder: (context, state) => const WelcomeScreen(),
       ),
       GoRoute(
         name: 'dashboard',
@@ -39,8 +39,8 @@ class AppRouter {
 
       final inSplash = state.fullPath == '/';
 
-      final inLogging = state.fullPath == '/login';
-      const loginLoc = '/login';
+      final inWelcome = state.fullPath == '/welcome';
+      const welcomeLoc = '/welcome';
 
 
       const dashboardLoc = '/dashboard';
@@ -49,20 +49,20 @@ class AppRouter {
 
       final noLoggedInRoutes = [
         inSplash,
-        inLogging
+        inWelcome
       ];
 
       // redirect to the welcome page if the user is not logged in or to the
       //  dashboard if the user is logged in
       if (appStateManager.isInitialized) {
         if (inSplash) {
-          return loginLoc;
+          return welcomeLoc;
         }
 
         if (!loggedIn) {
 
           if (noLoggedInRoutes.every((element) => !element) ) {
-            return loginLoc;
+            return welcomeLoc;
           }
         } else {
           if (noLoggedInRoutes.any((element) => element)){

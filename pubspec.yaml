@@ -43,3 +43,4 @@ flutter:
     - .env
     - assets/
     - assets/logos/
+    - assets/backgrounds/
