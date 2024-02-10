@@ -1,12 +1,17 @@
 import 'package:commits_history/theme/commits_history_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'manager/app_state_manager.dart';
 import 'navigation/app_router.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(
+      fileName: '.env'
+  );
+
   runApp(const CommitsHistory());
 }
 
