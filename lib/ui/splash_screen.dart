@@ -17,7 +17,7 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       context.read<AppStateManager>().initializeApp();
     });
   }
@@ -31,9 +31,14 @@ class SplashScreenState extends State<SplashScreen> {
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // TODO: Add Splash Screen Content
             Center(
-              child: Text('Splash Screen'),
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Image(
+                  height: 250,
+                  image: AssetImage('assets/logos/commits_history_logo.png'),
+                ),
+              ),
             )
           ],
         ),
