@@ -5,12 +5,12 @@ import 'style.dart';
 
 class CommitsHistoryCupertinoTheme {
   static CupertinoThemeData light() {
-    return CupertinoThemeData(
+    return const CupertinoThemeData(
       scaffoldBackgroundColor: CupertinoColors.white,
       primaryColor: Colors.black,
       textTheme: CupertinoTextThemeData(
-          textStyle: const TextStyle(color: CupertinoColors.black),
-          primaryColor: Colors.amber.shade400
+          textStyle: TextStyle(color: CupertinoColors.black),
+          primaryColor: Colors.blueGrey
       ),
     );
   }
@@ -20,7 +20,7 @@ class CommitsHistoryCupertinoTheme {
 class CommitsHistoryMaterialTheme {
   static ThemeData light() {
     return ThemeData(
-      primaryColor: Colors.amber.shade400,
+      primaryColor: Colors.blueGrey,
       brightness: Brightness.light,
       checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateColor.resolveWith((states) {
