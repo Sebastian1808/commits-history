@@ -1,12 +1,12 @@
-import 'package:commits_history/ui/auth/components/custom_app_bar_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../helpers/launch_web_view.dart';
 import '../../theme/style.dart';
-import 'components/custom_card_wrapper.dart';
-import 'components/custom_button.dart';
+import '../components/custom_app_bar_back_button.dart';
+import '../components/custom_button.dart';
+import '../components/custom_card_wrapper.dart';
 
 class HowToGetAuthTokenScreen extends StatefulWidget {
   const HowToGetAuthTokenScreen({super.key});

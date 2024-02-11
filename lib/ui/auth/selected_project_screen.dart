@@ -12,8 +12,8 @@ import 'package:provider/provider.dart';
 
 import '../../manager/app_state_manager.dart';
 import '../../theme/style.dart';
-import 'components/card_projects.dart';
-import 'components/custom_card_wrapper.dart';
+import '../components/card_projects.dart';
+import '../components/custom_card_wrapper.dart';
 
 class SelectProjectScreen extends StatefulWidget {
   const SelectProjectScreen({super.key});
@@ -41,8 +41,9 @@ class _SelectProjectScreenState extends State<SelectProjectScreen> {
             ),
         trailingActions: [
           PlatformIconButton(
-            onPressed: () {
-              context.read<AppStateManager>().logout();
+            onPressed: () async {
+              await context.read<AppStateManager>().logout();
+              if(!context.mounted) return;
               context.goNamed('welcome');
             },
             icon: const FaIcon(

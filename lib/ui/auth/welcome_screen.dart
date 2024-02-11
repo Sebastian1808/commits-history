@@ -11,9 +11,9 @@ import '../../api/auth/auth_services.dart';
 import '../../helpers/launch_web_view.dart';
 import '../../manager/app_state_manager.dart';
 import '../../theme/style.dart';
-import 'components/custom_card_wrapper.dart';
-import 'components/custom_app_bar.dart';
-import 'components/custom_button.dart';
+import '../components/custom_app_bar.dart';
+import '../components/custom_button.dart';
+import '../components/custom_card_wrapper.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -153,7 +153,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ),
                             PlatformTextButton(
                                 child: Text(
-                                    "let's get to it",
+                                    "Let's do it",
                                     style: GoogleFonts.nunito(
                                       textStyle: Styles.bodyTextBold,
                                       color: Colors.blueGrey,

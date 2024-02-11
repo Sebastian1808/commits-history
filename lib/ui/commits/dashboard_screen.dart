@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:commits_history/api/extensions.dart';
-import 'package:commits_history/ui/auth/components/card_commits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +10,9 @@ import 'package:provider/provider.dart';
 import '../../api/auth/auth_services.dart';
 import '../../manager/app_state_manager.dart';
 import '../../theme/style.dart';
-import '../auth/components/custom_app_bar_menu.dart';
-import '../auth/components/custom_card_wrapper.dart';
+import '../components/card_commits.dart';
+import '../components/custom_app_bar_menu.dart';
+import '../components/custom_card_wrapper.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -85,10 +85,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.blueGrey)
+                            return const Expanded(
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.blueGrey)
+                                ),
                               ),
                             );
                           default:
