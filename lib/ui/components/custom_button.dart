@@ -41,11 +41,11 @@ class CustomButton extends StatelessWidget {
                 width: double.infinity,
                 child: Text(textButton,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.black)
+                    style: TextStyle(color: Colors.grey[100])
                 )
             ),
             originalStyle: true,
-            color: const Color.fromRGBO(249, 190, 34, 1),
+            color: Colors.blueGrey,
             padding: const EdgeInsets.all(15.0),
           ),
         )
