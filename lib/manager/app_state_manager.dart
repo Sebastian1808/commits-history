@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:commits_history/helpers/parse_string_to_bool.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -31,6 +32,7 @@ class AppStateManager extends ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
 
     token = await storage.read(key: 'token');
+    _isDefaultProject = parseStringToBool(await storage.read(key: 'isDefaultProject') ?? '');
 
     await Future.delayed(const Duration(milliseconds: 1));
 
@@ -38,9 +40,6 @@ class AppStateManager extends ChangeNotifier {
 
     // If the user has a token saved, it will notify the listeners after login
     if (token != null) {
-
-      _isDefaultProject ? viewDefaultProject() : notifyListeners();
-
 
       await login();
     }
@@ -59,6 +58,10 @@ class AppStateManager extends ChangeNotifier {
   login() async {
     _loggedIn = true;
 
+    if (_isDefaultProject) {
+      viewDefaultProject();
+    }
+
     notifyListeners();
   }
 
@@ -73,6 +76,8 @@ class AppStateManager extends ChangeNotifier {
   void viewDefaultProject() async {
     _isProjectSelected = true;
     _isDefaultProject = true;
+
+    await storage.write(key: 'isDefaultProject', value: "true");
 
     _projectName = dotenv.env['REPO_NAME'] ?? "Default Project";
     _projectOwner = dotenv.env['REPO_OWNER'] ?? "";
@@ -94,8 +99,10 @@ class AppStateManager extends ChangeNotifier {
     }
   }
 
-  void logout() async {
+   logout() async {
     await storage.write(key: "token", value: null);
+    await storage.write(key: "isDefaultProject", value: null);
+
     _loggedIn = false;
     _isProjectSelected = false;
     _isDefaultProject = false;
