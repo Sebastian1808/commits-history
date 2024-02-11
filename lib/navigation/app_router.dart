@@ -1,11 +1,12 @@
 import 'package:commits_history/ui/auth/how_to_get_auth_token_screen.dart';
 import 'package:commits_history/ui/auth/selected_project_screen.dart';
+import 'package:commits_history/ui/commits/commit_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
 import '../manager/app_state_manager.dart';
 import '../ui/auth/welcome_screen.dart';
-import '../ui/dashboard_screen.dart';
+import '../ui/commits/dashboard_screen.dart';
 import '../ui/splash_screen.dart';
 
 class AppRouter {
@@ -45,6 +46,11 @@ class AppRouter {
           key: state.pageKey,
           child: const DashboardScreen(),
         ),
+      ),
+      GoRoute(
+        name: 'commitDetail',
+        path: '/commit-detail',
+        builder: (context, state) => CommitDetailScreen(commit: state.extra as Map<String, dynamic>),
       ),
     ],
     redirect: (BuildContext context, GoRouterState state) {

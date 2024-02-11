@@ -8,11 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-import '../api/auth/auth_services.dart';
-import '../manager/app_state_manager.dart';
-import '../theme/style.dart';
-import 'auth/components/custom_app_bar_menu.dart';
-import 'auth/components/custom_card_wrapper.dart';
+import '../../api/auth/auth_services.dart';
+import '../../manager/app_state_manager.dart';
+import '../../theme/style.dart';
+import '../auth/components/custom_app_bar_menu.dart';
+import '../auth/components/custom_card_wrapper.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -73,7 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   CustomCardWrapper(
                     child: Text(
-                      'Commit History Of: \n $projectName/$projectOwner',
+                      'Commits History Of: \n $projectName/$projectOwner',
                       style: GoogleFonts.nunito(
                         textStyle: Styles.headline3,
                       ),
@@ -160,7 +160,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         }
                       }
                   ),
-                  Image.asset('assets/logos/login_decoration.png'),
                 ],
               ),
             ),

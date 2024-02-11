@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'custom_back_button.dart';
 
@@ -11,13 +12,13 @@ PlatformAppBar customAppBarBackButton(String title, context) {
     leading: const CustomBackButton(),
     title: Text(
       title,
-      style: platformThemeData(
-        context,
-        material: (data) =>
-            data.textTheme.headlineMedium?.copyWith(color: Colors.white),
-        cupertino: (data) =>
-            data.textTheme.navTitleTextStyle.copyWith(color: Colors.white),
-      ),
+      style: GoogleFonts.nunito(
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      )
     ),
     backgroundColor: Colors.black,
   );

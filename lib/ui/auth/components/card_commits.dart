@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../theme/style.dart';
 import 'custom_card_wrapper.dart';
@@ -15,9 +16,7 @@ class CardCommits extends StatelessWidget {
         itemCount: commits.length,
         itemBuilder: (context, i) {
           return GestureDetector(
-            onTap: () async {
-              // TODO: Show Full Commit
-            },
+            onTap: () => context.pushNamed('commitDetail', extra: commits[i]),
             child: CustomCardWrapper(
               child:  Padding(
                 padding: const EdgeInsets.all(5.0),
