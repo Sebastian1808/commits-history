@@ -1,18 +1,44 @@
-# commits_history
+# Commits History
 
 In this application you can see the commits you have made in a GitHub repository.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Before proceeding, make sure you have installed:
 
 - Make sure you have Flutter and Dart installed on your system. You can follow the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for detailed instructions on how to do this.
-- Clone this repository on your local machine:
+- Code editor (e.g. Visual Studio Code, Android Studio, etc.)
+- Make sure you have and set up a mobile device emulator in your IDE in which you can test the application.
+### Installation steps
 
-```bash
+1. Clone this repository on your local machine:
+
+````bash
 git clone https://github.com/Sebastian1808/commits-history
+````
+2. Go to the project root and execute the following command to get the required dependencies:
+
+````bash
+flutter pub get
+````
+3. Run the application with the following command:
+
+````bash
+flutter run
+````
+## Usage
+
+1. When you run the application, you will see a screen where you can see the commits of the same application repository or put your personal access token and see the commits of the repositories you have access to. 
+2. if you want to visualize how the project would look like on iOS or Android you must change line 32 of the Main.dart file, in which you specify the device -> .Material = Android, .Cupertino = iOS
+3. You can see the details of the commits by clicking on them.
+4. You can switch between repositories by selecting the drop-down menu at the top left in the "Commits History" section.
+
+## Contributing
+
+If you want to contribute to this project and make it better, your help is very welcome. Create a pull request with your new features, bug fixes, etc.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md]
