@@ -56,6 +56,7 @@ class AppRouter {
 
       final inHowToGetAuthToken = state.fullPath == '/how-to-get-auth-token';
 
+      final inSelectProject = state.fullPath == '/select-project';
       const selectProjectLoc = '/select-project';
 
       const dashboardLoc = '/dashboard';
@@ -66,7 +67,8 @@ class AppRouter {
       final noLoggedInRoutes = [
         inSplash,
         inWelcome,
-        inHowToGetAuthToken
+        inHowToGetAuthToken,
+        inSelectProject
       ];
 
       // redirect to the welcome page if the user is not logged in or to the
@@ -84,8 +86,10 @@ class AppRouter {
         } else {
           if (noLoggedInRoutes.any((element) => element)){
             if (!isProjectSelected) {
+
               return selectProjectLoc;
             } else {
+
               return dashboardLoc;
             }
           }

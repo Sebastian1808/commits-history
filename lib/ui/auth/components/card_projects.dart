@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../../manager/app_state_manager.dart';
 import '../../../theme/style.dart';
 import 'custom_card_wrapper.dart';
 
@@ -16,8 +18,12 @@ class CardProjects extends StatelessWidget {
         itemCount: projects.length,
         itemBuilder: (context, i) {
           return GestureDetector(
-            onTap: () {
-              // TODO: Navigate to the next screen
+            onTap: () async {
+              await AppStateManager.storage.write(key: "ProjectName", value: projects[i]['name']);
+              await AppStateManager.storage.write(key: "ProjectOwner", value: projects[i]['owner']['login']);
+
+              if(!context.mounted) return;
+              context.read<AppStateManager>().selectProject();
             },
             child: CustomCardWrapper(
               child:  Padding(
