@@ -55,7 +55,7 @@ void showPopup(context, bool isDefaultProject) {
               alignment: Alignment.center,
               width: MediaQuery.of(context).size.width,
               height: isDefaultProject
-                  ? MediaQuery.of(context).copyWith().size.height * 0.1
+                  ? MediaQuery.of(context).copyWith().size.height * 0.11
                   : MediaQuery.of(context).copyWith().size.height * 0.2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
