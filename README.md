@@ -11,6 +11,8 @@ A few resources to get you started if this is your first Flutter project:
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Make sure you have Flutter and Dart installed on your system. You can follow the [official Flutter documentation](https://flutter.dev/docs/get-started/install) for detailed instructions on how to do this.
+- Clone this repository on your local machine:
+
+```bash
+git clone https://github.com/Sebastian1808/commits-history
