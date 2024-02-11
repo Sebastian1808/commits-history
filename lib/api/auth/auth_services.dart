@@ -27,7 +27,7 @@ class AuthServices {
     }
   }
 
-  Future<Response> login({required String token, required bool viewThisRepo}) async {
+  Future<Response> login({required String token}) async {
     final response = await get(
       Uri.parse("$_baseUrl/octocat"),
       headers: {
@@ -41,11 +41,6 @@ class AuthServices {
     //  was successfully logged in
     if (response.isSuccessful) {
       await AppStateManager.storage.write(key: "token", value: token);
-
-      // If the user wants to see the commits of the repo
-      if (viewThisRepo) {
-        await getHistoryCommits(repoName: dotenv.env['REPO_NAME'], repoOwner: dotenv.env['REPO_OWNER']);
-      }
     }
 
     return response;

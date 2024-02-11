@@ -219,13 +219,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     Response response = await AuthServices().login(
       token: dotenv.env['PERSONAL_ACCESS_TOKEN'] ?? '',
-      viewThisRepo: true,
     );
 
     setState(() => isLoadingThisCommits = false);
 
     if (response.isSuccessful) {
       Provider.of<AppStateManager>(context, listen: false).login();
+      Provider.of<AppStateManager>(context, listen: false).viewDefaultProject();
+
     } else {
       showPlatformDialog(
           context: context,
@@ -265,7 +266,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
       Response response = await AuthServices().login(
         token: _controllerToken.text,
-        viewThisRepo: false,
       );
 
       setState(() => isLoadingOtherCommits = false);
