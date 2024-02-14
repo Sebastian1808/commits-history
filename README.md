@@ -23,7 +23,7 @@ git clone https://github.com/Sebastian1808/commits-history
 4. Configure the Device Manager in your IDE if necessary create a device to emulate the application
 5. Make sure you have the .env file in the root of the project, if you don't have it create one with the .env.example structure.
 
-````bash
+
 6. Open a terminal at the root of the project and run the following command to obtain the necessary dependencies:
 
 ````bash
